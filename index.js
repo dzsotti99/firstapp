@@ -35,11 +35,11 @@ app.post('/number', (req, res) => {
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     const date = new Date();
     const datetime = `${date.getDay() < 10 ? '0' + date.getDay() : date.getDay()}/${date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth()}/${date.getFullYear()}-${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:${date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()}:${date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()}`
-    fs.writeFileSync('./logs/logs.log', `POST ${req.url} ${datetime} ${ip} ${status} ${req?.body?.number ? req?.body?.number : 0}\n`, {
+    fs.writeFileSync('./logs/logs.log', `POST ${req.url} ${datetime} ${ip} ${status} ${req.body && req.body.number ? req.body.number : 0}\n`, {
         flag: 'a+'
     });
     res.status(status).json({
-        number: req?.body?.number ? req?.body?.number : 0
+        number: req.body && req.body.number ? req.body.number : 0
     });
 })
 
